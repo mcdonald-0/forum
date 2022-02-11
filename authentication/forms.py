@@ -1,5 +1,10 @@
 from django import forms
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import (
+    UserAttributeSimilarityValidator, 
+    CommonPasswordValidator, 
+    NumericPasswordValidator
+)
 
 from authentication.models import *
 
@@ -24,7 +29,12 @@ class SignUpForm(forms.ModelForm):
             )
         )
     password = forms.CharField(
-        label='', 
+        label='',
+        min_length=6,
+        max_length=128,
+        validators={
+            UserAttributeSimilarityValidator,  
+        },
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password', 
@@ -33,6 +43,7 @@ class SignUpForm(forms.ModelForm):
                 }
             )
         )
+        #ToDo: I need to add password validators to the signup form.
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
@@ -68,4 +79,11 @@ class SignInForm(forms.ModelForm):
             password = self.cleaned_data['password']
 
         if not authenticate(email=email, password=password):
-            raise forms.ValidationError('Incorrect Email or Password!')
+            try:
+                check_email = User.objects.get(email=email)
+                if check_email:
+                    raise forms.ValidationError(f'Incorrect password for email "{check_email}"😓')
+
+            except User.DoesNotExist:
+                raise forms.ValidationError('You do not have an account yet😕, try creating one🙂!')
+           

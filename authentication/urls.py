@@ -4,6 +4,6 @@ from authentication.views import *
 
 app_name = 'authentication'
 urlpatterns = [ 
-    path('signup/', SignInView, name='signup'),
+    path('signup/', SignUpView, name='signup'),
     path('signin/', SignInView, name='signin'),
 ]

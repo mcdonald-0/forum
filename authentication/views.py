@@ -45,6 +45,10 @@ def SignInView(request, *args, **kwargs):
 			user = authenticate(email=email, password=password)
 			if user:
 				login(request, user)
+				return HttpResponse(f'<h1>Hello {user.username}</h1>')
+			else:
+				message = 'Incorrect Username or Password!'
+				form = SignInForm()
 
 	context = {
 		'form': form
