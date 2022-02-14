@@ -1,0 +1,10 @@
+For the model mapping of the UserProfile, there would be
+
+1. Profile image
+    - There would be a folder in the data base containing the previous profile images too
+    - There would also be the cropping of the profile image
+2. Ranking
+    - I really can't think of the ranking stuff but it would be like stack overflow ranking. It would be something like followers but its not followers since its not a social media app. Its more like the stars you gain via contribution to the Forum Community.
+    - There would be asked_questions counts. This is the count of your asked question 
+    - There would be answered_question counts. This is the count of your answered question 
+    - There would be reach count; The number of people your question reached. 
