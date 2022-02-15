@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from authentication.models import *
 from authentication.forms import *
+from users.models import *
 
 def SignUpView(request, *args, **kwargs):
 
@@ -15,6 +16,7 @@ def SignUpView(request, *args, **kwargs):
 		form = SignUpForm(request.POST)
 		if form.is_valid():
 			user = User.objects.create_user(**form.cleaned_data)
+			userprofile = UserProfile.objects.create(user=user)
 
 			email = form.cleaned_data['email']
 			password = form.cleaned_data['password']

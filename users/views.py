@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
@@ -9,8 +10,9 @@ from users.models import *
 from authentication.models import *
 
 @login_required(login_url='authentication:signin')
-def UserProfileView(request, *args, **kwargs):
-
+def EditUserProfile(request, *args, **kwargs):
+    # Modify this function that if someone wants to edit a profile that is not theirs, it redirects them to their profile
+    # Also modify the frontend
     user_id = kwargs['user_id']
     try:
         user = User.objects.get(pk=user_id)
@@ -19,30 +21,35 @@ def UserProfileView(request, *args, **kwargs):
     if user.pk != request.user.pk:
         return HttpResponse('you cannot edit another profile😠')
 
-    form = UserProfileForm()
-
     try:
         profile = request.user.userprofile
     except UserProfile.DoesNotExist:
-        profile = UserProfile(user=request.user)
+        profile = UserProfile.objects.create(user=request.user, pk=request.user.pk)
+        profile.save()
 
-    # if request.method == 'POST':
-        
-    #     form = UserProfileForm(request.POST, request.FILES, instance=user)
-        
-    #     if form.is_valid():
-    #         try:
-    #             user = user.userprofile
-    #         except user.DoesNotExist:
-    #             form.save()
-    #         # up = UserProfile.objects.update_or_create(**form.cleaned_data)
-    #         # up.save()
+    form = UserProfileForm(instance=request.user.userprofile)
 
-    #         print(form.cleaned_data)
-    #         print(user.userprofile)
-    #         return HttpResponse('<h1>Success</h1>')
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid():
+            form.save()
+            return redirect('users:view_profile', user_id=request.user.pk)
 
     context = {
         'form': form
+    }
+    return render(request, 'users/edit_profile.html', context)
+
+
+def UserProfileView(request, *args, **kwargs):
+
+    user_id = kwargs['user_id']
+    try:
+        profile = UserProfile.objects.get(pk=user_id)
+    except UserProfile.DoesNotExist:
+        return HttpResponse('That user does not exist!')
+
+    context = {
+        'user': profile,
     }
     return render(request, 'users/view_profile.html', context)
