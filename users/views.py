@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
@@ -41,6 +40,7 @@ def EditUserProfile(request, *args, **kwargs):
     return render(request, 'users/edit_profile.html', context)
 
 
+@login_required(login_url='authentication:signin')
 def UserProfileView(request, *args, **kwargs):
 
     user_id = kwargs['user_id']

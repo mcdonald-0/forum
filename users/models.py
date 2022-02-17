@@ -1,6 +1,7 @@
 from django.db import models
 
 from authentication.models import *
+from helpers.models import *
 
 
 def get_image_filepath(self, *args, **kwargs):
@@ -9,7 +10,7 @@ def get_image_filepath(self, *args, **kwargs):
 def get_default_image():
 	return 'icons/male.png'
 
-class UserProfile(models.Model):
+class UserProfile(TrackingModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image  = models.ImageField(max_length=255, upload_to=get_image_filepath, null=True, blank=True, default=get_default_image)
     first_name = models.CharField(max_length=150, null=True)

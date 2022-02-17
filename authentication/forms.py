@@ -11,7 +11,7 @@ from authentication.models import *
 class SignUpForm(forms.ModelForm):
     username = forms.CharField(
         max_length=150, 
-        label="", 
+        label="Username", 
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control', 

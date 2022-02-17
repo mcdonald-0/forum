@@ -4,19 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/auth/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% block stylesheet %}
+
+    {% endblock %}
+
     <title>Forum</title>
 </head>
 <body>
     <style type="text/css">
-
-        {% include 'style.css' %}
 		.main {
 			min-height: 100vh;
 			height: 100%;
 		}
-
 	</style>
 
     <div class="main">
@@ -24,6 +29,13 @@
 
         {% endblock %}
     </div>
+
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
+    {% block script %}
+
+    {% endblock %}
 
 </body>
 </html>
