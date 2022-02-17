@@ -1,30 +1,25 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.password_validation import (
-    UserAttributeSimilarityValidator, 
-    CommonPasswordValidator, 
-    NumericPasswordValidator
-)
+
+from django.utils.translation import gettext_lazy as _
 
 from authentication.models import *
 
 class SignUpForm(forms.ModelForm):
     username = forms.CharField(
         max_length=150, 
-        label="Username", 
+        label="", 
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control', 
-                'placeholder': 'Username'
                 }
             )
         )
-    email = forms.EmailField(
+    email = forms.CharField(
         label="", 
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control', 
-                'placeholder': 'Email'
                 }
             )
         )
@@ -32,14 +27,10 @@ class SignUpForm(forms.ModelForm):
         label='',
         min_length=6,
         max_length=128,
-        validators={
-            UserAttributeSimilarityValidator,  
-        },
         widget=forms.PasswordInput(
             attrs={
                 'autocomplete': 'new-password', 
                 'class': 'form-control',
-                'placeholder': 'Password'
                 }
             )
         )
@@ -54,8 +45,7 @@ class SignInForm(forms.ModelForm):
         label="", 
         widget=forms.EmailInput(
             attrs={
-                'class': 'form-control', 
-                'placeholder': 'Email'
+                'class': 'form-control',
                 }
             )
         )
@@ -65,7 +55,6 @@ class SignInForm(forms.ModelForm):
             attrs={
                 'autocomplete': 'new-password', 
                 'class': 'form-control',
-                'placeholder': 'Password'
                 }
             )
         )
@@ -82,8 +71,8 @@ class SignInForm(forms.ModelForm):
             try:
                 check_email = User.objects.get(email=email)
                 if check_email:
-                    raise forms.ValidationError(f'Incorrect password for email "{check_email}"😓')
+                    raise forms.ValidationError(_(f'Incorrect password for email "{check_email}"😓'))
 
             except User.DoesNotExist:
-                raise forms.ValidationError('You do not have an account yet😕, try creating one🙂!')
+                raise forms.ValidationError(_('You do not have an account yet😕, try creating one🙂!'))
            

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, REDIRECT_FIELD_NAME
+from django.contrib.auth import authenticate, login
 
 from django.shortcuts import render, redirect
 
@@ -7,60 +7,62 @@ from django.http import HttpResponse
 
 from authentication.models import *
 from authentication.forms import *
+from authentication.decorators import *
 from users.models import *
 
+@unregistered_user
 def SignUpView(request, *args, **kwargs):
+
+	form = SignUpForm()
 
 	if request.method == 'POST':
 
-		username = request.POST['username']
-		email = request.POST['email']
-		password = request.POST['password']
+		form = SignUpForm(request.POST)
 
-		# Fix this code so that the form validates the input and checks the database if there is a user with that email or username. 
+		if form.is_valid():
 
-		user = User.objects.create_user(username=username, email=email, password=password)
-		UserProfile.objects.create(user=user)
+			username = form.cleaned_data['username']
+			email = form.cleaned_data['email']
+			password = form.cleaned_data['password']
 
-		user = form.cleaned_data.get('username')
-		messages.success(request, 'An account was created for ' + user)
+			user = User.objects.create_user(username=username, email=email, password=password)
+			
+			UserProfile.objects.create(user=user)
 
-		return redirect('authentication:signin')
+			user = request.POST['username']
+			messages.success(request, 'An account was created for ' + user)
+
+			return redirect('authentication:signin')
 	
 	context = {
-		'form': form
+		'form': form,
 	}
 	return render(request, 'authentication/signup.html', context)
 
+@unregistered_user
 def SignInView(request, *args, **kwargs):
+
+	form = SignInForm()
 
 	if request.method == "POST":
 
-		email = request.POST['email']
-		password = request.POST['password']
+		form = SignInForm(request.POST)
 
-		user = authenticate(email=email, password=password)
-		if user:
+		if form.is_valid():
+
+			email = form.cleaned_data['email']
+			password = form.cleaned_data['password']
+
+			user = authenticate(email=email, password=password)
+
 			login(request, user)
-		else:
-			messages.info(request, 'Username OR Password is incorrect!')
-
-	context = {}
+			return HttpResponse('Success!')
+		
+	context = {
+		'form': form
+	}
 	return render(request, 'authentication/signin.html', context)
 
-
-def get_redirect_url(self):
-	"""Return the user-originating redirect URL if it's safe."""
-	redirect_to = self.request.POST.get(
-		self.redirect_field_name,
-		self.request.GET.get(self.redirect_field_name, '')
-	)
-	url_is_safe = url_has_allowed_host_and_scheme(
-		url=redirect_to,
-		allowed_hosts=self.get_success_url_allowed_hosts(),
-		require_https=self.request.is_secure(),
-	)
-	return redirect_to if url_is_safe else ''
 
 
 # Fix the bug that keeps user in the login screen even after getting logged in, this happens after login_required() has been called. It is supposed to log them in and then return them to the url they were before but it still keeps them in the login screen with the url http://127.0.0.1:8000/signin/?next=/user/1/. 
