@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+    {% for tag in tags %}
+        {{tag}}
+    {% endfor %}
+    <br>
+    {% for question in questions %}
+        {{question}}
+    {% endfor %}
+{% endblock %}

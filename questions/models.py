@@ -11,7 +11,6 @@ class Tag(TrackingModel):
     def __str__(self):
         return self.name
 
-
 class Question(TrackingModel):
     questioner = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)

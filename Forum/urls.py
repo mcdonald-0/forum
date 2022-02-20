@@ -21,7 +21,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    #This contains /signup and /signin urls
     path('', include('authentication.urls')),
+
+    #This is the homepage of the website
+    path('', include('questions.urls')),
+    
     path('account/', include('passwords.urls')),
     path('user/', include('users.urls')),
 

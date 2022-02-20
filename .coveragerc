@@ -1,0 +1,16 @@
+[run]
+
+source = authentication/, 
+omit=
+    forumvenv
+    passwords
+    questions
+    users
+    */migrations/*
+    */tests/*
+    */media/*
+    */media_cdn/*
+    */static/*
+    */static_cdn/*
+    */__init__.py
+

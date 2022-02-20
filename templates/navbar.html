@@ -1,0 +1,129 @@
+{% load static %}
+<header>
+	
+	<div class="d-flex p-1 px-md-4 mb-4 bg-white border-bottom shadow-lg">
+
+		<!-- Medium+ Screens -->
+
+		<div class="d-none d-md-flex flex-row my-auto flex-grow-1 align-items-center">
+
+			<h5 class="mr-3 font-weight-normal justify-content-start">
+				<a class='p-2 text-dark' href="{% url 'questions:home' %}">Home</a>
+			</h5>
+
+			<form class="search-bar justify-content-start" onsubmit="return executeQuery();">
+				<input type="text" class="form-control" name="x" id="id_x_large" placeholder="Search">
+			</form>
+
+			<div class="d-flex flex-row-reverse flex-grow-1">
+				<nav>
+					{% if request.user.is_authenticated %}
+
+						<div class="dropdown dropleft show p-2">
+							
+							<div class="d-flex flex-row">
+								
+								<div class="btn-group dropleft">
+									<div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_chat_notification_toggle" data-toggle="dropdown">
+										<span id="id_chat_notification_count" class="notify-badge"></span>
+										<span class="d-flex material-icons notification-material-icon m-auto align-items-center">chat</span>
+										<div class="dropdown-menu scrollable-menu" aria-labelledby="id_chat_notification_toggle" id="id_chat_notifications_container">
+											
+										</div>
+
+									</div>
+								</div>
+
+								<div class="btn-group dropleft">
+									<div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_notification_toggle" data-toggle="dropdown">
+										<span id="id_general_notification_count" class="notify-badge"></span>
+										<span class="d-flex material-icons notification-material-icon m-auto align-items-center">notifications</span>
+										<div class="dropdown-menu scrollable-menu" aria-labelledby="id_notification_toggle" id="id_general_notifications_container">
+											
+										</div>
+
+									</div>
+								</div>
+
+								<div class="btn-group dropleft">
+								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{ request.user.profile_image.url }}" alt="{{ request.user.username }}'s Profile Photo" width="40" height="40">
+								<div class="dropdown-menu " aria-labelledby="id_profile_link">
+									<a class="dropdown-item" href="{% url 'questions:home' %}">Account</a>
+									<a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>
+								</div>
+							</div>
+
+							</div>
+
+							
+
+						</div>
+
+
+					{% else %}
+						<a class="p-2 text-dark" href="{% url 'authentication:signin' %}">Login</a>
+						<a class="btn btn-outline-primary" href="{% url 'authentication:signup' %}">Register</a>
+					{% endif %}
+				</nav>
+			</div>
+
+		</div>
+
+		<!-- End Medium+ Screens -->
+
+
+		<!-- Small Screens -->
+
+		<div class="d-flex d-md-none flex-column my-auto align-items-center">
+			<h5 class="font-weight-normal">
+				<a class="p-2 text-dark" href="{% url 'questions:home' %}">Home</a>
+			</h5>
+
+			<form class="search-bar justify-content-start" onsubmit="return executeQuery();">
+				<input type="text" class="form-control" name="x" id="id_x_small" placeholder="Search">
+			</form>
+
+			<div class="d-flex flex-row-reverse flex-grow-1">
+				<nav>
+					{% if request.user.is_authenticated %}
+
+						<div class="dropdown dropleft p-2 mt-2">
+							
+							<div class="d-flex flex-row">
+								<div class="btn-group dropleft">
+									<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{ request.user.profile_image.url }}" alt="{{ request.user.username }}'s Profile Photo" width="40" height="40">
+									<div class="dropdown-menu " aria-labelledby="id_profile_link">
+										<a class="dropdown-item" href="{% url 'questions:home'  %}">Account</a>
+										<a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					{% else %}
+						<a class="p-2 text-dark" href="{% url 'authentication:signin' %}">Login</a>
+						<a class="btn btn-outline-primary m-2" href="{% url 'authentication:signup' %}">Register</a>
+					{% endif %}
+				</nav>
+			</div>
+
+		</div>
+
+		<!-- End Small Screen -->
+
+	</div>
+
+	<script type="text/javascript">
+		function executeQuery(){
+			var query = document.getElementById("id_x_small").value;
+			if (query == ""){
+				query = document.getElementById("id_x_large").value;
+			}
+            //  This is the function to search the search bar
+			// /window.location.replace("{% url 'questions:home' %}?x=" + query)
+			return false
+		}
+	</script>
+
+</header>

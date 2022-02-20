@@ -1,0 +1,3 @@
+Im having this idea that the homepage would have like a big search button just like duckduckgo but...
+
+Well the homepage would basically contain some high ranking questions and the tags and a search bar saying "What's the question..." Or something like that but the main idea is to generally search what's on their mind. Also there would be something like most popular tags so they can just click a tag and it shows popular questions with that tag. Like i said when we first start off, i would build a bot to search the web for such tags both on stack exchange, quora etc... and then bring back questions from that site and display it. also users can answer questions and then improve their ranking. 
