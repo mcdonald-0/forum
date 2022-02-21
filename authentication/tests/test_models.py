@@ -1,22 +1,44 @@
-from unittest import TestCase
+from django import urls
 import pytest
 
 from django.contrib.auth import get_user_model
-# from django.test import TestCase
 
 @pytest.mark.django_db
-def test_create_user():
+def test_create_user_without_username(client):
     username = ''
     email = 'mcdonaldotoyo44@gmail.com'
     password = 'MyTestAccount'
     user_model = get_user_model()
     
-    TestCase.assertRaises(ValueError, user_model.objects.create_user(username=username, email=email, password=password))
-    with TestCase.assertRaisesMessage(ValueError, 'Users must have a username!'):
+    with pytest.raises(ValueError) as exc_info:
         user_model.objects.create_user(username=username, email=email, password=password)
+    assert 'Users must have a username!' == str(exc_info.value)
     
+
+@pytest.mark.django_db
+def test_create_user_without_email(client):
+    username = 'McDonald'
+    email = ''
+    password = 'MyTestAccount'
+    user_model = get_user_model()
     
-# ! Browse the internet for writing pytest that catches a value error because the one above just catches the error in the model
+    with pytest.raises(ValueError) as exc_info:
+        user_model.objects.create_user(username=username, email=email, password=password)
+    assert 'Users must have an email address!' == str(exc_info.value)
+    
+
+@pytest.mark.django_db
+def test_create_superuser():
+    username = 'McDonald'
+    email = 'mcdonaldotoyo44@gmail.com'
+    password = 'MyTestAccount'
+    user_model = get_user_model()
+    
+    super_user = user_model.objects.create_superuser(username=username, email=email, password=password)
+    assert super_user.is_admin == True
+    assert super_user.is_staff == True
+    assert super_user.is_superuser == True
+
 
 
 

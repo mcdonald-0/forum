@@ -65,6 +65,6 @@ def SignInView(request, *args, **kwargs):
 
 
 
-# Fix the bug that keeps user in the login screen even after getting logged in, this happens after login_required() has been called. It is supposed to log them in and then return them to the url they were before but it still keeps them in the login screen with the url http://127.0.0.1:8000/signin/?next=/user/1/. 
+#! Fix the bug that keeps user in the login screen even after getting logged in, this happens after login_required() has been called. It is supposed to log them in and then return them to the url they were before but it still keeps them in the login screen with the url http://127.0.0.1:8000/signin/?next=/user/1/. 
 
 
