@@ -7,7 +7,7 @@ from helpers.models import *
 def get_image_filepath(self, *args, **kwargs):
 	return f"profile_images/{self.pk}/{'profile_image.png'}"
 
-def get_default_image():
+def get_default_image(): 
 	return 'icons/male.png'
 
 class UserProfile(TrackingModel):

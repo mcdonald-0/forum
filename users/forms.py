@@ -22,5 +22,8 @@ class UserProfileForm(forms.ModelForm):
             profile.save()
             return profile
 
+# TOdo: i need to download an edit profile template so it kinda goes well with this
+
+
 
         

@@ -2,23 +2,31 @@ from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from authentication.models import *
+
+from helpers.decorators import *
 
 from users.forms import *
 from users.models import *
-from authentication.models import *
 
-@login_required(login_url='authentication:signin')
+
+@redirect_unregistered_user_to_signup
 def EditUserProfile(request, *args, **kwargs):
-    # Modify this function that if someone wants to edit a profile that is not theirs, it redirects them to their profile
-    # Also modify the frontend
+    #Todo: Modify the frontend of this view
     user_id = kwargs['user_id']
+
     try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return HttpResponse('Something went wrong😥')
+
     if user.pk != request.user.pk:
-        return HttpResponse('you cannot edit another profile😠')
+        messages.info(request, 'What are you doing😕')
+        messages.info(request, 'Try editing your own profile😏')
+        return redirect('users:edit_profile', user_id=request.user.pk)
 
     try:
         profile = request.user.userprofile
@@ -40,7 +48,6 @@ def EditUserProfile(request, *args, **kwargs):
     return render(request, 'users/edit_profile.html', context)
 
 
-@login_required(login_url='authentication:signin')
 def UserProfileView(request, *args, **kwargs):
 
     user_id = kwargs['user_id']

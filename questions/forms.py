@@ -24,7 +24,7 @@ class AskQuestionForm(ModelForm):
         widget=forms.TextInput(attrs={
         	'placeholder': 'What\'s your question title', 
         	'class': 'form-control'})
-        )
+        )  
 	
 	question = forms.CharField(
 		label="",

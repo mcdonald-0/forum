@@ -13,10 +13,11 @@ class Tag(TrackingModel):
     def __str__(self):
         return self.name
 
+#! I just found a bug; A user can create a question with both the same title and the same question text so fix the bug so it tells them that 'Ooh, you have already asked that question'
 class Question(TrackingModel):
     questioner = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING)
     title = models.CharField(max_length=200, null=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
     question = models.TextField()
     date_asked = models.DateTimeField(auto_now_add=True, null=True)
@@ -33,7 +34,7 @@ class Question(TrackingModel):
         return super().save(*args, **kwargs)
 
 class Answer(TrackingModel):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
     answerer = models.ForeignKey(UserProfile, on_delete=models.DO_NOTHING)
     answer = models.TextField()
 

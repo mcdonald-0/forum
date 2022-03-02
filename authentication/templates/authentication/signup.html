@@ -29,6 +29,10 @@
                     
                             <form method="POST" class="signin-form">
                                 {% csrf_token %}
+
+                                {% for message in messages %}
+                                    <p id="messages" class="text-center">{{ message }}</p>
+                                {% endfor %}
                                     <div class="form-group mt-3">
                                         {{form.username}}
                                         <label class="form-control-placeholder" for="username">Username</label>
