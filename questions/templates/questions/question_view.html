@@ -90,14 +90,15 @@
         </div>
     </div>
 
-    <div class="card card-body mx-4">
-        <form method="POST">
-            {% csrf_token %}
-            {{form.answer}}
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
-        </form>
-    </div>
-    
+    {% if request.user.is_authenticated %}
+        <div class="card card-body mx-4">
+            <form method="POST">
+                {% csrf_token %}
+                {{form.answer}}
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+        </div>
+    {% endif %}
         
     {% if question.answers.all %}
         <div class="container mt-5">

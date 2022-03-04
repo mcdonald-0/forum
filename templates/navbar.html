@@ -7,7 +7,7 @@
 <div class="header-blue">
   <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
       <div class="container">
-          <a class="navbar-brand" href="#">Forum</a>
+          <a class="navbar-brand" href="{% url 'questions:home' %}">Forum</a>
           <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1">
               <span class="sr-only">Toggle navigation</span>
               <span class="navbar-toggler-icon"></span>
@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse"id="navcol-1">
                 <ul class="nav navbar-nav">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" href="#">Link</a>
+                        <a class="nav-link active" href="{% url 'questions:ask' %}">Ask</a>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
@@ -26,20 +26,34 @@
                         </div>
                   </li>
               </ul> 
-              <form class="form-inline mr-auto" target="_self">
+              <form class="form-inline mr-auto" onsubmit="return executeQuery();">
                   <div class="form-group">
                       <label for="search-field">
                           <i class="fa fa-search"></i>
                         </label>
-                        <input class="form-control search-field" type="search" name="search" id="search-field">
+                        <input class="form-control search-field" type="search" name="x" id="search-field">
                     </div>
               </form>
-              <span class="navbar-text"> 
-                  <a href="{% url 'authentication:signin' %}" class="login">Sign In</a>
-                </span>
+              {% if request.user.is_unauthenticated %}
+                <span class="navbar-text"><a href="{% url 'authentication:signin' %}" class="login">Sign In</a></span>
                 <a class="btn btn-light action-button" role="button" href="{% url 'authentication:signup' %}">Sign Up</a>
+              {% else %}
+              <a class="btn btn-light action-button" role="button" href="{% url 'users:edit_profile' request.user.pk %}">Profile</a>
+              {% endif %}
             </div>
       </div>
   </nav>
   
 </div>
+
+
+<script type="text/javascript">
+  function executeQuery(){
+    var query = document.getElementById("search-field").value;
+    if (query == ""){
+      query = document.getElementById("search-field").value;
+    }
+    window.location.replace("{% url 'questions:search_results' %}?x=" + query)
+    return false
+  }
+</script>

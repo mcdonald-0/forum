@@ -1,11 +1,8 @@
 [run]
 
-source = authentication/, 
+source = authentication/, passwords/, questions/, users/
 omit=
     forumvenv
-    passwords
-    questions
-    users
     */migrations/*
     */tests/*
     */media/*

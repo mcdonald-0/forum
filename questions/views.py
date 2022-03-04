@@ -1,13 +1,15 @@
+from urllib import request
 from django.http import HttpResponse 
 
 from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
+from django.shortcuts import render, redirect
 
 from django.urls import reverse
-from django import urls
 
 from helpers.decorators import *
 
+from questions.filters import *
 from questions.models import *
 from questions.forms import *
 
@@ -24,8 +26,8 @@ def HomePageView(request, *args, **kwargs):
     }
     return render(request, 'questions/index.html', context)
 
-def QuestionView(request, *args, **kwargs):
 
+def QuestionView(request, *args, **kwargs):
     slug = kwargs['slug']
     question_id = kwargs['question_id']
     try:
@@ -39,10 +41,15 @@ def QuestionView(request, *args, **kwargs):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
-            Answer.objects.create(question=question, answerer=request.user.userprofile, **form.cleaned_data)
-            return redirect('questions:question', question_id=question_id, slug=slug)
+            
+            if not request.user.userprofile.first_name:
+                messages.warning(request, 'You need to create a profile before you can answer a question😣!') 
+                return redirect('users:edit_profile', user_id=request.user.pk) 
+            else:
+                print('yes')
+                Answer.objects.create(question=question, answerer=request.user.userprofile, **form.cleaned_data)
 
-    #ToDo: I need to modify the view so that if a user just sign's up, he needs to create a userprofile before he answers a question so the answer does'nt shows his name as "None None"!
+            return redirect('questions:question', question_id=question_id, slug=slug)
 
     context = {
         'question': question,
@@ -50,6 +57,7 @@ def QuestionView(request, *args, **kwargs):
         'form': form
     }
     return render(request, 'questions/question_view.html', context)
+
 
 @redirect_unregistered_user_to_signup
 @user_with_no_userprofile
@@ -80,6 +88,34 @@ def AskQuestion(request, *args, **kwargs):
     return render(request, 'questions/ask_question.html', context)
 
 
+def SearchResults(request, *args, **kwargs):
+
+    if len(request.GET.get('x')) == 0:
+        return HttpResponse('<h1>You did\'nt input a search value</h1>')
+    else:
+        pass
+   
+   
+    if request.method == 'GET':
+        query = request.GET.get('x')
+        if len(query) > 0:
+            print(query)
+            question_results = Question.objects.filter(title__icontains=query).filter()
+            users_results = User.objects.filter(username__icontains=query).filter(email__icontains=query).distinct()
+            questions = []
+            users = []
+            for question in question_results:
+                questions.append((question, False))
+                
+            for user in users_results:
+                users.append((user, False))
+
+    context = {
+		'questions': questions,
+        'users': users,
+	}
+
+    return render(request, 'questions/search_results.html', context)
 
 
 

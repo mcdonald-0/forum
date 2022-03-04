@@ -31,9 +31,9 @@ def redirect_unregistered_user_to_signup(view_func):
 def user_with_no_userprofile(view_func):
 	def wrapper(request, *args, **kwargs):
         
-		if request.user.userprofile.first_name == None:
+		if not request.user.userprofile.first_name:
 			messages.warning(request, 'You need to create a profile before you do that😣!')
-			return redirect('users:edit_profile', user_id=request.user.pk)
+			return redirect('users:edit_profile', user_id=request.user.pk) 
 		else:
 			return view_func(request, *args, **kwargs)
             
