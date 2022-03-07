@@ -23,7 +23,7 @@ class SignUpForm(forms.ModelForm):
                 }
             )
         )
-    password = forms.CharField(
+    password = forms.CharField( 
         label='',
         min_length=6,
         max_length=128,

@@ -56,6 +56,7 @@ def UserProfileView(request, *args, **kwargs):
     except UserProfile.DoesNotExist:
         return HttpResponse('That user does not exist!')
 
+    print(profile)
     context = {
         'user': profile,
     }

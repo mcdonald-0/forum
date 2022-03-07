@@ -1,8 +1,53 @@
+from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
 
 from users.models import *
 
+
 class UserProfileForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+    max_length=150, 
+    label="", 
+    widget=forms.TextInput(
+        attrs={
+            'class': 'form-control', 
+            }
+        )
+    )
+
+    last_name = forms.CharField(
+    max_length=150, 
+    label="", 
+    widget=forms.TextInput(
+        attrs={
+            'class': 'form-control', 
+            }
+        )
+    )
+
+    GENDER_CHOICES = (
+    		('M', 'Male'),
+    		('F', 'Female'),
+     	)
+    gender = forms.CharField(
+        max_length=1,
+        widget=forms.RadioSelect(
+            choices=GENDER_CHOICES,
+        )
+    )
+
+    birthdate = forms.DateField(widget=forms.SelectDateWidget)
+
+    bio = forms.CharField(
+		label="",
+		widget=forms.Textarea(attrs={
+			'class': 'form-control', 
+			'rows': 3, 
+			'placeholder': 'You can write a little about yourself...'
+			})
+		)
+
     class Meta:
         model = UserProfile
         fields = '__all__'

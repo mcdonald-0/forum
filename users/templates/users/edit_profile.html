@@ -1,75 +1,144 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{# load i18n admin_modify admin_media_prefix #}
+
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/edit_profile.css' %}">
+    <!-- <link rel="stylesheet" href="{# admin_media_prefix #}css/base.css">
+    <link rel="stylesheet" href="{# admin_media_prefix #}css/widgets.css"> -->
+{% endblock %}
+
+<!--! I need to add django calender to my calender, the commented code is the attempt to add django admin calender. I should try adding it -->
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
 {% block content %}
 
+<form method="POST" enctype="multipart/form-data" class="p-4">
+    {% csrf_token %}
+    {{ form.error }}
 
-
- <div class="row">
-<div class="col-md-6">
-    <div class="card card-body">
-
+    <div class="container">
         {% for message in messages %}
             <p id="messages" class="">{{ message }}</p>
         {% endfor %}
-
-        <form action="" method="POST" enctype="multipart/form-data">
-
-            {% csrf_token %}
-            <div class="my-3">
-            {{ form.first_name }}
+        <div class="row gutters">
+            {% if request.user.userprofile %}
+            <div class="mb-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="account-settings">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <!--! This code below has an error, if the user is just signing up, it would show None and that needs to be fixed -->
+                                    <img src="{{ request.user.userprofile.profile_image.url }}" alt="{{ request.user.userprofile.first_name }}'s picture">
+                                </div>
+                                <h5 class="user-name text-nowrap">{{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}</h5>
+                                <h6 class="user-email text-nowrap">{{ request.user.email }}</h6>
+                            </div>
+                            <div class="bio">
+                                <h5>Bio</h5>
+                                <p>I'm {{request.user.userprofile.first_name}}. {{ request.user.userprofile.bio }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h4 class="mb-2 text-center text-primary"><b>Personal Details</b></h4>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="id_first_name">First Name</label>
+                                    {{ form.first_name }}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="id_last_name">Last Name</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <!-- <input type="text" class="form-control" id="phone" placeholder="Enter phone number"> -->
+                                    <div class="id_gender">
+                                        <div>
+                                            {% for gender in form.gender %}
+                                                <span class="m-2">{{ gender }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label>Birthdate</label>
+                                    <div>{{ form.birthdate }}</div>
 
-            <div class="my-3">
-            {{ form.middle_name }}
+    <!-- 
+                                    {# load i18n admin_modify #}
+                                    {# block extrahead #}
+                                        {{ block.super }}
+                                        <link rel="stylesheet" href="{# admin_media_prefix #}css/base.css">
+                                        <link rel="stylesheet" href="{# admin_media_prefix #}css/widgets.css">
+                                        <script src="/jsi18n/"></script>
+                                        <script src="{# admin_media_prefix #}js/core.js"></script>
+                                        {{ form.media }}
+                                    {# endblock #} -->
+
+                                </div>
+                            </div>
+                           
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <label for="id_bio">Bio</label>
+                                    {{ form.bio }}
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right">
+                                    <a href="{% url 'users:view_profile' request.user.pk %}" class="btn btn-outline-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="my-3">
-            {{ form.last_name }}
-            </div>
-
-            <div class="my-3">
-            {{ form.email }}
-            </div>
-
-            <div class="my-3">
-            {{ form.birthdate }}
-            </div>
-
-            <div class="my-3">
-            {{ form.bio }}
-            </div>
-
-       <button class="btn btn-primary" type="submit">Save changes</button>
-
+            {% endif %}
+        </div>
     </div>
-</div>
 
-<div class="col-md-6">
-    <div class="card card-body">
-        <img src="{{ request.user.userprofile.profile_image.url }}" alt="{{ request.user.userprofile }}'s picture" class="rounded-circle" width="200">
-        <hr>
-
-        <h6 class="text-center">Gender</h6>
-        {{ form.gender }}
-
-        <button class="btn btn-primary"><input type="file" name="profile_picture" accept="image/*" id="id_profile_picture">Change Picture</button>
-        
-        </form>
-    </div>
-</div>
-
-</div>
-
-
-
-
-
-
-
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-        <p>{{form.error}}</p>
-    <p>{{ form.as_p }}</p>
-<button class="btn btn-primary">Edit</button>
 </form>
+
+
+
+
+
+
+
+
 {% endblock %}
+
+
+{% block script %}
+    <script src="/jsi18n/"></script>
+    <script src="{# admin_media_prefix #}js/core.js"></script>
+{% endblock %}
+
+
+
