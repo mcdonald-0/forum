@@ -58,8 +58,10 @@ def SignInView(request, *args, **kwargs):
 			user = authenticate(email=email, password=password)
 
 			login(request, user)
-			return HttpResponse('Success!')
-		
+			
+			return redirect('questions:home')
+
+	
 	context = {
 		'form': form
 	}

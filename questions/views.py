@@ -2,6 +2,7 @@ from urllib import request
 from django.http import HttpResponse 
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.shortcuts import render, redirect
 
@@ -30,11 +31,11 @@ def HomePageView(request, *args, **kwargs):
 def QuestionView(request, *args, **kwargs):
     slug = kwargs['slug']
     question_id = kwargs['question_id']
+
     try:
         question = Question.objects.get(slug=slug, pk=question_id)
     except Question.DoesNotExist:
         return HttpResponse('There is no such question')
-
     
     form = AnswerForm()
 
@@ -42,28 +43,29 @@ def QuestionView(request, *args, **kwargs):
         form = AnswerForm(request.POST)
         if form.is_valid():
             
-            if not request.user.userprofile.first_name:
-                messages.warning(request, 'You need to create a profile before you can answer a question😣!') 
-                return redirect('users:edit_profile', user_id=request.user.pk) 
-            else:
-                print('yes')
-                Answer.objects.create(question=question, answerer=request.user.userprofile, **form.cleaned_data)
+            if request.user.userprofile.first_name == None:
+                messages.warning(request, 'You need to create a profile before you can do that😣!')
+                return redirect(f'/user/{ request.user.pk }/edit/?next={ request.path }')
+            
+            Answer.objects.create(question=question, answerer=request.user.userprofile, **form.cleaned_data)
 
             return redirect('questions:question', question_id=question_id, slug=slug)
 
     context = {
         'question': question,
         'answers_count': question.answers.count(),
+        'now': timezone.now(),
         'form': form
     }
     return render(request, 'questions/question_view.html', context)
 
 
-@redirect_unregistered_user_to_signup
-@user_with_no_userprofile
+@login_required(login_url='authentication:signin')
 def AskQuestion(request, *args, **kwargs):
 
-    #ToDo: I need to modify the user_with_no_userprofile decorator so that it has a next function so from here, they don't get redirected to view profile rather they get redirected back here
+    if request.user.userprofile.first_name == None:
+        messages.warning(request, 'You need to create a profile before you can do that😣!')
+        return redirect(f'/user/{ request.user.pk }/edit/?next={ request.path }')
 
     form = AskQuestionForm()
 

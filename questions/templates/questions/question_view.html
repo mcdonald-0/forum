@@ -115,13 +115,18 @@
                             <div class="user d-flex flex-row align-items-center"> 
                                 <img src="{{ answer.answerer.profile_image.url }}" width="30" class="user-img rounded-circle mr-2"> 
                                 <span>
-                                    <small class="font-weight-bold text-primary">{{ answer.answerer }}</small> 
-                                    <small class="font-weight-bold">{{ answer.answer | safe }}</small>
+                                    <small class="font-weight-bold text-primary"><a href="{% url 'users:view_profile' answer.answerer.pk %}" class="text-primary">{{ answer.answerer }}</a></small>
+                                    <span>
+                                        <small class="font-weight-bold">{{ answer.answer | safe }}</small>
+                                    </span> 
                                 </span> 
                             </div> 
+                            
                             <small>{{ answer.updated_at | naturaltime | naturalday }}</small>
+                           <!-- ! Research about performing logic in templates so if the user comments past more than a day, it shows the good date -->
+                            
                         </div>
-
+                        <!--! Fix the comment view section because it is looking weird if a person writes a long comment. -->
                         <div class="action d-flex justify-content-between mt-2 align-items-center">
                             <div class="reply px-4"> 
                                 <small>Remove</small> 

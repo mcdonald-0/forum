@@ -3,17 +3,14 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 
 from authentication.models import *
-
 from helpers.decorators import *
-
 from users.forms import *
 from users.models import *
 
 
-@redirect_unregistered_user_to_signup
+@redirect_unauthenticated_user_to_signin(login_url='authentication:signin')
 def EditUserProfile(request, *args, **kwargs):
     #Todo: Modify the frontend of this view
     user_id = kwargs['user_id']
@@ -40,6 +37,12 @@ def EditUserProfile(request, *args, **kwargs):
         form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
         if form.is_valid():
             form.save()
+
+            destination = request.POST.get('next')
+
+            if destination:
+                return redirect (destination)
+
             return redirect('users:view_profile', user_id=request.user.pk)
 
     context = {
@@ -47,16 +50,16 @@ def EditUserProfile(request, *args, **kwargs):
     }
     return render(request, 'users/edit_profile.html', context)
 
+#! Fix the navbar so that if a user is not signed in, it would not show the profile button.
 
 def UserProfileView(request, *args, **kwargs):
-
     user_id = kwargs['user_id']
+    
     try:
         profile = UserProfile.objects.get(pk=user_id)
     except UserProfile.DoesNotExist:
         return HttpResponse('That user does not exist!')
 
-    print(profile)
     context = {
         'user': profile,
     }
