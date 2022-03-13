@@ -3,10 +3,12 @@
 {% load static %}
 {% load humanize %}
 
+{% block navbar %}
+	{% include 'navbar.html' %}
+{% endblock %}
 
 {% block content %}
 
-{% include 'navbar.html' %}
 	<style>
     .profile-pic {
         max-width: 200px;

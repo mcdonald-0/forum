@@ -11,7 +11,10 @@ class ViewsTestCase(TestCase):
     def test_get_user_profile(self):
         response = self.client.get('/user/1/')
         self.assertEqual(response.status_code, 200)
+        # self.assertTemplateUsed(response, 'view_profile.html')
+        print(response)
         
     # def test_get_userprofile_that_does_not_exist(self):
     #     response = self.client.get('/user/2/')
-    #     self.assertEqual(response, 'That user does not exist!')
+    #     self.assertIs
+    #     self.assertEqual(response.status_code, 200)
