@@ -1,11 +1,11 @@
 body {
     margin: 0;
-    padding-top: 40px;
     color: #2e323c;
     background: #f5f6fa;
     position: relative;
     height: 100%;
 }
+
 .account-settings .user-profile {
     margin: 0 0 1rem 0;
     padding-bottom: 1rem;
@@ -15,8 +15,8 @@ body {
     margin: 0 0 1rem 0;
 }
 .account-settings .user-profile .user-avatar img {
-    width: 90px;
-    height: 90px;
+    width: 150px;
+    height: 150px;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
     border-radius: 100px;
@@ -30,15 +30,15 @@ body {
     font-weight: 400;
     color: #9fa8b9;
 }
-.account-settings .about {
+.account-settings .bio {
     margin: 2rem 0 0 0;
     text-align: center;
 }
-.account-settings .about h5 {
+.account-settings .bio h5 {
     margin: 0 0 15px 0;
     color: #007ae1;
 }
-.account-settings .about p {
+.account-settings .bio p {
     font-size: 0.825rem;
 }
 .form-control {

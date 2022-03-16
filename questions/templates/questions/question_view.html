@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% load humanize %}
 
 {% block navbar %}
     {% include 'navbar.html' %}
+{% endblock %}
+
+{% block navbarstylesheet %}
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 {% endblock %}
 
 {% block content %}

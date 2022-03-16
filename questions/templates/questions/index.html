@@ -6,45 +6,18 @@
     {% include 'navbar.html' %}
 {% endblock %}
 
+{% block navbarstylesheet %}
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock %}
+
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/questions/index.css' %}">
 {% endblock %}
 
 {% block content %}
 
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card-header text-dark card-title display-6 text-center">Tags</div>
-                    <div class="card-body text-body text-center">
-                        {% for tag in tags %}
-                            {{tag}}
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-header text-dark card-title display-6 text-center">Questions</div>
-                    <div class="card-body text-body text-center">
-                        {% for question in questions %}
-                            {{question}}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-
-
-
-
-
-
-
-
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
-    <div class="container">
+    <div class="container pt-3">
           <div class="row">
             <!-- Main content -->
             <div class="col-lg-9 mb-3">
@@ -70,6 +43,41 @@
                   </div>
                 </div>
               </div>
+
+
+
+
+
+
+
+              <div class="card row-hover pos-relative py-3 px-3 mb-3 border-primary border-top-0 border-right-0 border-bottom-0 rounded-0">
+                <div class="row align-items-center">
+                  <div class="col-md-8 mb-3 mb-sm-0">
+                    <h5>
+                      <a href="#" class="text-primary">Bootstrap 4 development in record time with AppStrap Bootstrap 4 Theme</a>
+                    </h5>
+                    <p class="text-sm"><span class="op-6">Posted</span> <a class="text-black" href="#">26 minutes</a> <span class="op-6">ago by</span> <a class="text-black" href="#">Themelize.me</a></p>
+                    <div class="text-sm op-5"> <a class="text-black mr-2" href="#">#Development</a> <a class="text-black mr-2" href="#">#iOS</a> <a class="text-black mr-2" href="#">#Bootstrap 4</a> <a class="text-black mr-2" href="#">#Wordpress</a> </div>
+                  </div>
+                  <div class="col-md-4 op-7">
+                    <div class="row text-center op-7">
+                      <div class="col px-1"> <i class="ion-connection-bars icon-1x"></i> <span class="d-block text-sm">163 Votes</span> </div>
+                      <div class="col px-1"> <i class="ion-ios-chatboxes-outline icon-1x"></i> <span class="d-block text-sm">236 Replys</span> </div>
+                      <div class="col px-1"> <i class="ion-ios-eye-outline icon-1x"></i> <span class="d-block text-sm">22 Views</span> </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+
+
               <!-- End of post 1 -->
               <div class="card row-hover pos-relative py-3 px-3 mb-3 border-warning border-top-0 border-right-0 border-bottom-0 rounded-0">
                 <div class="row align-items-center">
@@ -474,7 +482,7 @@
             <!-- Sidebar content -->
             <div class="col-lg-3 mb-4 mb-lg-0 px-lg-0 mt-lg-0">
               <div style="visibility: hidden; display: none; width: 285px; height: 801px; margin: 0px; float: none; position: static; inset: 85px auto auto;"></div><div data-settings="{&quot;parent&quot;:&quot;#content&quot;,&quot;mind&quot;:&quot;#header&quot;,&quot;top&quot;:10,&quot;breakpoint&quot;:992}" data-toggle="sticky" class="sticky" style="top: 85px;"><div class="sticky-inner">
-                <a class="btn btn-lg btn-block btn-success rounded-0 py-4 mb-3 bg-op-6 roboto-bold" href="#">Ask Question</a>
+                <!-- <a class="btn btn-lg btn-block btn-success rounded-0 py-4 mb-3 bg-op-6 roboto-bold" href="#">Ask Question</a> -->
                 <div class="bg-white mb-3">
                   <h4 class="px-3 py-4 op-5 m-0">
                     Active Topics
