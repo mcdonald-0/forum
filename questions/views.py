@@ -14,16 +14,22 @@ from questions.filters import *
 from questions.models import *
 from questions.forms import *
 
+from authentication.models import *
+
 
 def HomePageView(request, *args, **kwargs):
     tags = Tag.objects.all()
     questions = Question.objects.all()
-
+    users = User.objects.all()
+    userprofiles = UserProfile.objects.all()
+    
     # ToDo: I need to download a homepage template because i have no idea currently on what to do
 
     context = {
-        'tags': tags,
-        'questions': questions
+        'tags': tags, 
+        'questions': questions,
+        'users': users,
+        'profile': userprofiles,
     }
     return render(request, 'questions/index.html', context)
 
@@ -84,37 +90,34 @@ def AskQuestion(request, *args, **kwargs):
             return redirect('questions:question', question.pk, question.slug)
 
     context = {
-        'form': form,
+        'form': form, 
     }
 
     return render(request, 'questions/ask_question.html', context)
 
-
 def SearchResults(request, *args, **kwargs):
 
     if len(request.GET.get('x')) == 0:
-        return HttpResponse('<h1>You did\'nt input a search value</h1>')
+        return HttpResponse('<h1>You did nnt input a search value😒</h1>')
     else:
         pass
    
    
     if request.method == 'GET':
         query = request.GET.get('x')
-        if len(query) > 0:
-            print(query)
-            question_results = Question.objects.filter(title__icontains=query).filter()
-            users_results = User.objects.filter(username__icontains=query).filter(email__icontains=query).distinct()
-            questions = []
-            users = []
-            for question in question_results:
-                questions.append((question, False))
-                
-            for user in users_results:
-                users.append((user, False))
+        search_results = Q(
+            Q(title__istartswith=query) |
+            Q(title__icontains=query) |  
+            Q(tag__name__iexact=query) |
+            Q(questioner__first_name__iexact=query) | 
+            Q(questioner__user__username__exact=query)
+            )
 
+        results = Question.objects.filter(search_results)
+
+    
     context = {
-		'questions': questions,
-        'users': users,
+		'questions': results,
 	}
 
     return render(request, 'questions/search_results.html', context)

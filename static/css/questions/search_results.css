@@ -1,5 +1,4 @@
 body{
-    margin-top:20px;
     background:#eee;
     color: #708090;
 }
@@ -12,9 +11,14 @@ a{
 .text-primary, a.text-primary:focus, a.text-primary:hover {
     color: #00ADBB!important;
 }
-.text-black, .text-hover-black:hover {
+.text-black {
     color: #000 !important;
+    font-weight: bold;
 }
 .font-weight-bold {
     font-weight: 700 !important;
+}
+.error-link, .error-link:hover {
+    color: #00ADBB;
+    font-weight: bold;
 }

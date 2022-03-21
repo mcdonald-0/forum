@@ -155,3 +155,16 @@ TEMP = (BASE_DIR / 'media_cdn/temp')
 
 BASE_URL = 'https://127.0.0.1:8000'
 
+
+
+
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+
+
+
+
+
+
+
+

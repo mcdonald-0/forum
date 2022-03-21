@@ -11,8 +11,8 @@
         <li><a href="{% url 'questions:ask' %}" class="nav-link px-2 text-white">Ask a question</a></li>
       </ul>
 
-      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="GET" action="{% url 'questions:search_results' %}">
+        <input type="search" name="x" id="search-field" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
       </form>
       {% if request.user.is_authenticated %}
       <!-- Todo: Edit this so that you can both edit account which is your username and email and edit profile which is your personal details -->
@@ -26,5 +26,5 @@
       </div>
       {% endif %}
     </div>
-  </div> 
+  </div>
 </header>

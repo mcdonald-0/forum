@@ -39,7 +39,7 @@ def EditUserProfile(request, *args, **kwargs):
             form.save()
 
             destination = request.POST.get('next')
-
+ 
             if destination:
                 return redirect (destination)
 
@@ -49,8 +49,6 @@ def EditUserProfile(request, *args, **kwargs):
         'form': form
     }
     return render(request, 'users/edit_profile.html', context)
-
-#! Fix the navbar so that if a user is not signed in, it would not show the profile button.
 
 def UserProfileView(request, *args, **kwargs):
     user_id = kwargs['user_id']

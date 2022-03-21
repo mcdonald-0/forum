@@ -56,9 +56,13 @@ def SignInView(request, *args, **kwargs):
 			password = form.cleaned_data['password']
 
 			user = authenticate(email=email, password=password)
-
 			login(request, user)
-			
+
+			destination = request.POST.get('next')
+
+			if destination:
+				return redirect (destination)
+
 			return redirect('questions:home')
 
 	
@@ -68,7 +72,5 @@ def SignInView(request, *args, **kwargs):
 	return render(request, 'authentication/signin.html', context)
 
 #? 320 square meters by 320 square meters 4 bedroom with four bq en`suite
-
-#! Fix the bug that keeps user in the login screen even after getting logged in, this happens after login_required() has been called. It is supposed to log them in and then return them to the url they were before but it still keeps them in the login screen with the url http://127.0.0.1:8000/signin/?next=/user/1/. 
 
 
