@@ -33,7 +33,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 <strong>Warning!</strong> {{ message }}
               </div>
-        {% endfor %}
+        {% endfor %} 
 
         <div class="row gutters">
             <!-- If the user already has a userprofile -->
@@ -44,7 +44,6 @@
                             <div class="account-settings">
                                 <div class="user-profile">
                                     <div class="user-avatar">
-                                        <!--! This code below has an error, if the user is just signing up, it would show None and that needs to be fixed -->
                                         <img src="{{ request.user.userprofile.profile_image.url }}" alt="{{ request.user.userprofile.first_name }}'s picture">
                                     </div>
                                     <h5 class="user-name text-nowrap">{{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}</h5>

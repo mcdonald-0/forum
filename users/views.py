@@ -16,6 +16,12 @@ def EditUserProfile(request, *args, **kwargs):
     user_id = kwargs['user_id']
 
     try:
+        profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=request.user, pk=request.user.pk)
+        profile.save()
+
+    try:
         user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
         return HttpResponse('Something went wrong😥')
@@ -25,11 +31,6 @@ def EditUserProfile(request, *args, **kwargs):
         messages.info(request, 'Try editing your own profile😏')
         return redirect('users:edit_profile', user_id=request.user.pk)
 
-    try:
-        profile = request.user.userprofile
-    except UserProfile.DoesNotExist:
-        profile = UserProfile.objects.create(user=request.user, pk=request.user.pk)
-        profile.save()
 
     form = UserProfileForm(instance=request.user.userprofile)
 
@@ -52,9 +53,25 @@ def EditUserProfile(request, *args, **kwargs):
 
 def UserProfileView(request, *args, **kwargs):
     user_id = kwargs['user_id']
+
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return HttpResponse('Something went wrong😥')
+
     
     try:
         profile = UserProfile.objects.get(pk=user_id)
+
+        if profile.first_name == 'Bot':
+            if request.user.is_authenticated:
+                if not request.user.is_superuser and not request.user.is_staff:
+                    messages.warning(request, 'You are not authorized to view that profile🐱‍👤')
+                    return redirect('users:view_profile', user_id=request.user.pk)
+            else:
+                messages.warning(request, 'You are not authorized to view that profile🐱‍👤')
+                return redirect('questions:home')
+        
     except UserProfile.DoesNotExist:
         return HttpResponse('That user does not exist!')
 

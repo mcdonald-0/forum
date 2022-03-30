@@ -11,145 +11,85 @@
   <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 {% endblock %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/users/edit_profile.css' %}">
+{% endblock %}
+
+
 {% block content %}
 
-	<style>
-    .profile-pic {
-        max-width: 200px;
-        max-height: 200px;
-        margin: 0 auto;
-        border-radius: 100px;
-    }
-    ul {
-        list-style-type: none;
-    }
-</style>
+<div class="container">
+    <!-- This is to display the warning message -->
+    {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Warning!</strong> {{ message }}
+          </div>
+    {% endfor %} 
 
-<div class="mx-2 my-3">
-  <div class="row gutters-sm">
-
-		<div class="col-md-3">
-			<div class="card card-body"> 
-	        <h3 class="text-center">Total Posts</h3>
-	        <hr>
-	        <h4 class="text-center"> {{ user.question_set.all.count }} </h4>
-	       	<br>
-	        <h3 class="text-center">Date Joined</h3>
-	        <hr>
-	        <h5 class="text-center text-muted text-capitalize">{{ user.user.date_joined | naturalday }}</h4>
-			</div>
-		</div>
-
-		<div class="col-md-4">
-			<div class="card card-body">
-    			<div class="d-flex flex-column align-items-center text-center">
-            		<img src="{{ user.profile_image.url }}" alt="{{ user }} photo" height="150" width="150" style="border-radius: 100px;">
-            		<div class="mt-3">
-                		<h4 class="text-capitalize">{{ user }}</h4>
-		                <p class="text-secondary mb-1 text-break">{{ user.bio }}</p>
-		                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-		                <button class="btn btn-primary">Follow</button>
-		                <button class="btn btn-outline-primary">Message</button>
-            		</div>
-          		</div>
-        	</div>
-    	</div>
-
-    	<div class="col-md-5">
-    		<div class="card mb-3">
-    			<div class="card-body">
-
-        			<div class="row">
-            			<div class="col-sm-3">
-            				<h6 class="mb-0">Full Name</h6>
-            			</div>
-            			<div class="col-sm-9 text-secondary text-capitalize">{{ user }}</div>
-        			</div>
-
-        			<hr>
-
-        			<div class="row">
-            			<div class="col-sm-3">
-            				<h6 class="mb-0">Email</h6>
-            			</div>
-            			<div class="col-sm-9 text-secondary">{{ user.email }}</div>
-        			</div>
-
-        			<hr>
-
-        			<div class="row">
-            			<div class="col-sm-3">
-            				<h6 class="mb-0">Birthdate</h6>
-            			</div>
-            			<div class="col-sm-9 text-secondary">{{ user.birthdate }}</div>
-        			</div>
-
-          			<hr>
-
-          			<div class="row">
-            			<div class="col-sm-3">
-              				<h6 class="mb-0">Gender</h6>
-            			</div>
-            			<div class="col-sm-9 text-secondary">{{ user.gender }}</div>
-          			</div>
-
-          			<hr>
-
-          			<div class="row">
-            			<div class="col-sm-3">
-              				<h6 class="mb-0">Address</h6>
-            			</div>
-            			<div class="col-sm-9 text-secondary">Bay Area, San Francisco, CA</div>
-          			</div>
-
-          		</div>
-          	</div>
-        </div>
-
-	</div>
-</div>
-        
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4"><a href="#custom-modal" class="btn btn-custom waves-effect waves-light mb-4" data-animation="fadein" data-plugin="custommodal" data-overlayspeed="200" data-overlaycolor="#36404a"><i class="mdi mdi-plus"></i> Add Member</a></div>
-            <!-- end col -->
-        </div>
-        <!-- end row -->
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="text-center card-box">
-                    <div class="member-card pt-2 pb-2">
-                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
-                        <div class="">
-                            <h4>Freddie J. Plourde</h4>
-                            <p class="text-muted">@Founder <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
+    <div class="row gutters p-4">
+        {% if user.first_name != None %}
+            <div class="mb-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="account-settings">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <div class="thumb-lg member-thumb mx-auto"><img src="{{ user.profile_image.url }}" class="rounded-circle img-thumbnail" alt="{{ user.first_name }}'s picture"></div>
+                                </div>
+                                <h5 class="user-name text-nowrap">{{ user.first_name }} {{ user.last_name }}</h5>
+                                <h6 class="user-email text-nowrap">{{ user.user.email }}</h6>
+                            </div>
+                            <div class="bio">
+                                <h5>Bio</h5>
+                                <p>I'm {{ user.first_name }}; {{ user.bio }}</p>
+                            </div>
                         </div>
-                        <ul class="social-links list-inline">
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
-                        </ul>
-                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Message Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h4 class="mb-2 text-center text-primary"><b>{{ user.first_name }}'s Details</b></h4>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="mt-3">
+                                    <h4>{{ user.user.username }}</h4>
+                                    <p class="mb-0 text-muted">Username</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="mt-3">
+                                    <h4>{{ user.user.date_joined.date }}</h4>
+                                    <p class="mb-0 text-muted">Date Joined</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                    
+                     
                         <div class="mt-4">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>2563</h4>
-                                        <p class="mb-0 text-muted">Wallets Balance</p>
+                                        <h4>{{ user.questions.count }}</h4>
+                                        <p class="mb-0 text-muted">Question{{ questions | pluralize }} asked</p>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>6952</h4>
-                                        <p class="mb-0 text-muted">Income amounts</p>
+                                        <h4>{{ user.answers_given.count }}</h4>
+                                        <p class="mb-0 text-muted">Question{{ questions | pluralize }} answered</p>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>1125</h4>
-                                        <p class="mb-0 text-muted">Total Transactions</p>
+                                        <h4>{{ user.user.last_login }}</h4>
+                                        <p class="mb-0 text-muted">Last login</p>
                                     </div>
                                 </div>
                             </div>
@@ -157,39 +97,49 @@
                     </div>
                 </div>
             </div>
-            <!-- end col -->
-            <div class="col-lg-4">
-                <div class="text-center card-box">
-                    <div class="member-card pt-2 pb-2">
-                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
-                        <div class="">
-                            <h4>Julie L. Arsenault</h4>
-                            <p class="text-muted">@Programmer <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
+        {% elif user.first_name == None %}
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h4 class="mb-2 text-center text-primary"><b>{{ user.user.username }}'s Details</b></h4>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="mt-3">
+                                    <h4>{{ user.user.username }}</h4>
+                                    <p class="mb-0 text-muted">Username</p>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="mt-3">
+                                    <h4>{{ user.user.date_joined.date }}</h4>
+                                    <p class="mb-0 text-muted">Date Joined</p>
+                                </div>
+                            </div>
                         </div>
-                        <ul class="social-links list-inline">
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
-                        </ul>
-                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Message Now</button>
+
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                    
+                    
                         <div class="mt-4">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>8471</h4>
-                                        <p class="mb-0 text-muted">Wallets Balance</p>
+                                        <h4>{{ user.questions.count }}</h4>
+                                        <p class="mb-0 text-muted">Question{{ questions | pluralize }} asked</p>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>8512</h4>
-                                        <p class="mb-0 text-muted">Income amounts</p>
+                                        <h4>{{ user.answers_given.count }}</h4>
+                                        <p class="mb-0 text-muted">Question{{ questions | pluralize }} answered</p>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
                                     <div class="mt-3">
-                                        <h4>4751</h4>
-                                        <p class="mb-0 text-muted">Total Transactions</p>
+                                        <h4>{{ user.user.last_login }}</h4>
+                                        <p class="mb-0 text-muted">Last login</p>
                                     </div>
                                 </div>
                             </div>
@@ -197,51 +147,32 @@
                     </div>
                 </div>
             </div>
-            <!-- end col -->
-            <div class="col-lg-4">
-                <div class="text-center card-box">
-                    <div class="member-card pt-2 pb-2">
-                        <div class="thumb-lg member-thumb mx-auto"><img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="rounded-circle img-thumbnail" alt="profile-image"></div>
-                        <div class="">
-                            <h4>Christopher Gallardo</h4>
-                            <p class="text-muted">@Webdesigner <span>| </span><span><a href="#" class="text-pink">websitename.com</a></span></p>
-                        </div>
-                        <ul class="social-links list-inline">
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a></li>
-                        </ul>
-                        <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light">Message Now</button>
-                        <div class="mt-4">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="mt-3">
-                                        <h4>1021</h4>
-                                        <p class="mb-0 text-muted">Wallets Balance</p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mt-3">
-                                        <h4>4562</h4>
-                                        <p class="mb-0 text-muted">Income amounts</p>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="mt-3">
-                                        <h4>3621</h4>
-                                        <p class="mb-0 text-muted">Total Transactions</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end col -->
-        </div>
+        {% endif %}
     </div>
-    <!-- container -->
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

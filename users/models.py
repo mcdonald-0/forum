@@ -10,8 +10,8 @@ def get_image_filepath(self, *args, **kwargs):
 def get_default_image(): 
 	return 'icons/male.png' 
 
-class UserProfile(TrackingModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class UserProfile(TrackingModel): 
+    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE)
     profile_image  = models.ImageField(max_length=255, upload_to=get_image_filepath, null=True, blank=True, default=get_default_image)
     first_name = models.CharField(max_length=150, null=True)
     last_name = models.CharField(max_length=150, null=True)

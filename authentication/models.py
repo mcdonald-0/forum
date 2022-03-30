@@ -10,6 +10,9 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
+from django.urls import reverse
+from django.template.defaultfilters import slugify
+
 from helpers.models import TrackingModel
 
 
@@ -86,9 +89,15 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 		),
 	)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    slug = models.SlugField()
 
     objects = AccountManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    def get_absolute_url(self):
+        return reverse('users:view_profile', kwargs={'slug': self.slug})
+
+

@@ -105,19 +105,28 @@ def SearchResults(request, *args, **kwargs):
    
     if request.method == 'GET':
         query = request.GET.get('x')
+
         search_results = Q(
             Q(title__istartswith=query) |
-            Q(title__icontains=query) |  
             Q(tag__name__iexact=query) |
-            Q(questioner__first_name__iexact=query) | 
+            Q(questioner__first_name__exact=query) | 
             Q(questioner__user__username__exact=query)
             )
 
-        results = Question.objects.filter(search_results)
+        user_search_results = Q(
+            Q(first_name__exact=query) |
+            Q(last_name__exact=query)
+        )
 
+        results = Question.objects.filter(search_results)
+        user_results = UserProfile.objects.filter(user_search_results)
+
+    if len(user_results) == 1:
+        print(user_results[0].questions.first())
     
     context = {
 		'questions': results,
+        'users': user_results,
 	}
 
     return render(request, 'questions/search_results.html', context)

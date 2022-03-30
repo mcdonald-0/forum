@@ -17,7 +17,7 @@
       {% if request.user.is_authenticated %}
       <!-- Todo: Edit this so that you can both edit account which is your username and email and edit profile which is your personal details -->
       <div class="text-end">
-        <button type="button" class="btn btn-warning"><a class="text-decoration-none text-dark" href="{% url 'users:edit_profile' request.user.pk %}">Profile</a></button>
+        <button type="button" class="btn btn-warning"><a class="text-decoration-none text-dark" href="{% url 'users:view_profile' request.user.pk %}">Profile</a></button>
       </div>
       {% else %}
       <div class="text-end">
