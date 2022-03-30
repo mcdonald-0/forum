@@ -16,7 +16,7 @@ def EditUserProfile(request, *args, **kwargs):
     user_id = kwargs['user_id']
 
     try:
-        profile = request.user.userprofile
+        profile = request.user.user_profile
     except UserProfile.DoesNotExist:
         profile = UserProfile.objects.create(user=request.user, pk=request.user.pk)
         profile.save()
@@ -32,10 +32,10 @@ def EditUserProfile(request, *args, **kwargs):
         return redirect('users:edit_profile', user_id=request.user.pk)
 
 
-    form = UserProfileForm(instance=request.user.userprofile)
+    form = UserProfileForm(instance=request.user.user_profile)
 
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.user_profile)
         if form.is_valid():
             form.save()
 
@@ -54,10 +54,10 @@ def EditUserProfile(request, *args, **kwargs):
 def UserProfileView(request, *args, **kwargs):
     user_id = kwargs['user_id']
 
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
-        return HttpResponse('Something went wrong😥')
+    # try:
+    #     user = User.objects.get(pk=user_id)
+    # except User.DoesNotExist:
+    #     return HttpResponse('Something went wrong😥')
 
     
     try:

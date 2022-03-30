@@ -63,6 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 			'unique': _("A user with this username already exists."),
 		},
     )
+    slug = models.SlugField()
     email = models.EmailField(_('email address'), unique=True, 
     error_messages={
         'unique': _("A user with this email already exists."),
@@ -89,7 +90,6 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 		),
 	)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-    slug = models.SlugField()
 
     objects = AccountManager()
 
@@ -99,5 +99,10 @@ class User(AbstractBaseUser, PermissionsMixin, TrackingModel):
 
     def get_absolute_url(self):
         return reverse('users:view_profile', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs): 
+        if not self.slug:
+            self.slug = slugify(self.username)
+        return super().save(*args, **kwargs)
 
 

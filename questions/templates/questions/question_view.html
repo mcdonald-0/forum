@@ -121,7 +121,7 @@
                             <div class="user d-flex flex-row align-items-center"> 
                                 <img src="{{ answer.answerer.profile_image.url }}" width="30" class="user-img rounded-circle mr-2"> 
                                 <span>
-                                    <small class="font-weight-bold text-primary"><a href="{% url 'users:view_profile' answer.answerer.pk %}" class="text-primary">{{ answer.answerer }}</a></small>
+                                    <small class="font-weight-bold text-primary"><a href="{% url 'users:view_profile' answer.answerer.user.slug answer.answerer.pk %}" class="text-primary">{{ answer.answerer }}</a></small>
                                     <span>
                                         <small class="font-weight-bold">{{ answer.answer | safe }}</small>
                                     </span> 

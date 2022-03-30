@@ -37,21 +37,21 @@
 
         <div class="row gutters">
             <!-- If the user already has a userprofile -->
-            {% if request.user.userprofile.first_name != None %}
+            {% if request.user.user_profile.first_name != None %}
                 <div class="mb-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="account-settings">
                                 <div class="user-profile">
                                     <div class="user-avatar">
-                                        <img src="{{ request.user.userprofile.profile_image.url }}" alt="{{ request.user.userprofile.first_name }}'s picture">
+                                        <img src="{{ request.user.user_profile.profile_image.url }}" alt="{{ request.user.user_profile.first_name }}'s picture">
                                     </div>
-                                    <h5 class="user-name text-nowrap">{{ request.user.userprofile.first_name }} {{ request.user.userprofile.last_name }}</h5>
+                                    <h5 class="user-name text-nowrap">{{ request.user.user_profile.first_name }} {{ request.user.user_profile.last_name }}</h5>
                                     <h6 class="user-email text-nowrap">{{ request.user.email }}</h6>
                                 </div>
                                 <div class="bio">
                                     <h5>Bio</h5>
-                                    <p>I'm {{request.user.userprofile.first_name}}. {{ request.user.userprofile.bio }}</p>
+                                    <p>I'm {{request.user.user_profile.first_name}}. {{ request.user.user_profile.bio }}</p>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +121,7 @@
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="text-right">
-                                        <a href="{% url 'users:view_profile' request.user.pk %}" class="btn btn-outline-secondary">Cancel</a>
+                                        <a href="{% url 'users:view_profile' request.user.slug request.user.pk %}" class="btn btn-outline-secondary">Cancel</a>
                                         <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                 </div>
 
             <!-- If the user does not have a userprofile -->
-            {% elif request.user.userprofile.first_name == None %}
+            {% elif request.user.user_profile.first_name == None %}
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">

@@ -30,7 +30,7 @@
                         <h5>
                           <a href="{% url 'questions:question' question.pk question.slug %}" class="text-primary">{{ question.title }}</a>
                         </h5>
-                        <p class="text-sm"><span class="op-6">Asked</span> {{ question.date_asked | naturaltime }} by <a class="text-black" href="{% url 'users:view_profile' question.questioner.pk %}">{{ question.questioner.user.username }}</a></p>
+                        <p class="text-sm"><span class="op-6">Asked</span> {{ question.date_asked | naturaltime }} by <a class="text-black" href="{% url 'users:view_profile' question.questioner.user.slug question.questioner.pk %}">{{ question.questioner.user.username }}</a></p>
                         <!-- Todo: i need to fix the tag system so this can come active -->
                         <!-- <div class="text-sm op-5"> <a class="mr-2" href="#">#Development</a> <a class="mr-2" href="#">#iOS</a> <a class="mr-2" href="#">#Bootstrap 4</a> <a class="mr-2" href="#">#Wordpress</a> </div> -->
                       </div>
